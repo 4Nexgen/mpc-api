@@ -6,9 +6,11 @@ import { Candidate } from './Controllers/candidates/entities/candidate.entity';
 import { Vote } from './Controllers/votes/entities/vote.entity';
 import { CandidatesModule } from './Controllers/candidates/candidates.module';
 import { VotesModule } from './Controllers/votes/votes.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     VotesModule,
     CandidatesModule,
     TypeOrmModule.forRoot({

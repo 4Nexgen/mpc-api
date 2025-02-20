@@ -3,4 +3,5 @@ export class CreateVoteDto {
   candidate_ids: number[];
   email: string;
   remarks: string;
+  captchaToken: string;
 }

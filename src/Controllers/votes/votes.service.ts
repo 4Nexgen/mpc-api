@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 import { Vote } from './entities/vote.entity';
 import { Candidate } from '../candidates/entities/candidate.entity';
 import { BadRequestException } from '@nestjs/common';
+import axios from 'axios';
 
 @Injectable()
 export class VotesService {
@@ -17,21 +18,42 @@ export class VotesService {
     private candidatesRepository: Repository<Candidate>,
   ) {}
 
+  async verifyCaptcha(captchaToken: string): Promise<void> {
+    const secretKey = process.env.RECAPTCHA_SECRET_KEY; // Store in .env
+    const url = `https://www.google.com/recaptcha/api/siteverify`;
+
+    try {
+      const { data } = await axios.post(url, null, {
+        params: {
+          secret: secretKey,
+          response: captchaToken,
+        },
+      });
+
+      if (!data.success) {
+        throw new BadRequestException('Invalid CAPTCHA verification.');
+      }
+    } catch (error) {
+      throw new BadRequestException('Failed to verify CAPTCHA.');
+    }
+  }
+
   async create(createVoteDto: CreateVoteDto): Promise<Vote> {
-    // Check if the email already exists in the votes table
+    await this.verifyCaptcha(createVoteDto.captchaToken);
+
     const existingVote = await this.voteRepository.findOne({
       where: { email: createVoteDto.email },
     });
 
     if (existingVote) {
-      throw new BadRequestException('You have already voted!');
+      throw new BadRequestException('This email has already voted.');
     }
 
-    // Create a new vote entry
+    // Save the vote
     const vote = this.voteRepository.create(createVoteDto);
     await this.voteRepository.save(vote);
 
-    // Increment total votes for each candidate voted
+    // Increment total votes for each candidate
     for (const candidateId of createVoteDto.candidate_ids) {
       await this.candidatesRepository.increment(
         { id: candidateId },
