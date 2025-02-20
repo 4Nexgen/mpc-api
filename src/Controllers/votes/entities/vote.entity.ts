@@ -14,7 +14,7 @@ export class Vote {
   @Column()
   candidate_id: number;
 
-  @Column()
+  @Column({ unique: true })
   email: string;
 
   @Column()

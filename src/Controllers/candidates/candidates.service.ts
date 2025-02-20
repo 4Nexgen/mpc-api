@@ -13,8 +13,8 @@ export class CandidatesService {
   ) {}
 
   async create(CreateCandidateDto: CreateCandidateDto): Promise<Candidate> {
-    const candidate = this.candidatesRepository.create(CreateCandidateDto); // Prepare data
-    return this.candidatesRepository.save(candidate); // Save to DB
+    const candidate = this.candidatesRepository.create(CreateCandidateDto);
+    return this.candidatesRepository.save(candidate);
   }
 
   async findAll() {

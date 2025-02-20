@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Vote } from './entities/vote.entity';
 import { Candidate } from '../candidates/entities/candidate.entity';
+import { BadRequestException } from '@nestjs/common';
 
 @Injectable()
 export class VotesService {
@@ -17,9 +18,20 @@ export class VotesService {
   ) {}
 
   async create(createVoteDto: CreateVoteDto): Promise<Vote> {
+    // Check if the email already exists in the votes table
+    const existingVote = await this.voteRepository.findOne({
+      where: { email: createVoteDto.email },
+    });
+
+    if (existingVote) {
+      throw new BadRequestException('You have already voted!');
+    }
+
+    // Create a new vote entry
     const vote = this.voteRepository.create(createVoteDto);
     await this.voteRepository.save(vote);
 
+    // Increment total votes for each candidate voted
     for (const candidateId of createVoteDto.candidate_ids) {
       await this.candidatesRepository.increment(
         { id: candidateId },
