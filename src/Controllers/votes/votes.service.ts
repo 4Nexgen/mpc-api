@@ -18,12 +18,17 @@ export class VotesService {
 
   async create(createVoteDto: CreateVoteDto): Promise<Vote> {
     const vote = this.voteRepository.create(createVoteDto);
-    await this.candidatesRepository.increment(
-      { id: createVoteDto.candidate_id },
-      'total_votes',
-      1,
-    );
-    return this.voteRepository.save(vote);
+    await this.voteRepository.save(vote);
+
+    for (const candidateId of createVoteDto.candidate_ids) {
+      await this.candidatesRepository.increment(
+        { id: candidateId },
+        'total_votes',
+        1,
+      );
+    }
+
+    return vote;
   }
 
   findAll(): Promise<Vote[]> {
