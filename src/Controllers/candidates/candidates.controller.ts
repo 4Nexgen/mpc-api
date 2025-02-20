@@ -20,7 +20,7 @@ export class CandidatesController {
     return this.candidatesService.create(createCandidateDto);
   }
 
-  @Get('name')
+  @Get('getCandidates')
   findAll() {
     return this.candidatesService.findAll();
   }

@@ -20,7 +20,7 @@ export class VotesController {
     return this.votesService.create(createVoteDto);
   }
 
-  @Get()
+  @Get('getVote')
   findAll() {
     return this.votesService.findAll();
   }

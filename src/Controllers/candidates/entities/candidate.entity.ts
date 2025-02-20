@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Vote } from 'src/Controllers/votes/entities/vote.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany } from 'typeorm';
 
 @Entity()
 export class Candidate {
@@ -16,4 +17,7 @@ export class Candidate {
 
   @Column()
   image_url: string;
+
+  @ManyToMany(() => Vote, (vote) => vote.candidate_id)
+  votes: Vote[];
 }
