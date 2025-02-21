@@ -39,7 +39,7 @@ export class VotesService {
   }
 
   async create(createVoteDto: CreateVoteDto): Promise<Vote> {
-    await this.verifyCaptcha(createVoteDto.captchaToken);
+    await this.verifyCaptcha(createVoteDto.captchaToken); //Comment this if captcha verification is not needed
 
     const existingVote = await this.voteRepository.findOne({
       where: { email: createVoteDto.email },
