@@ -2,6 +2,10 @@ services:
   app:
     image: xoderockson/mpc-api:latest
     container_name: mpc-api
+    env_file:
+         - .env
     ports:
       - 3021:3000
-   
+    volumes:
+      - /var/www/xgame-apis/mpc-api/.env:/usr/src/app/.env
+
