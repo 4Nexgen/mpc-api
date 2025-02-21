@@ -1,0 +1,7 @@
+services:
+  app:
+    image: xoderockson/mpc-api:latest
+    container_name: mpc-api
+    ports:
+      - 3021:3000
+   
