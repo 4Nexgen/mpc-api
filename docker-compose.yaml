@@ -3,7 +3,7 @@ services:
     image: xoderockson/mpc-api:latest
     container_name: mpc-api
     env_file:
-         - .env
+      - .env
     ports:
       - 3021:3000
     volumes:
