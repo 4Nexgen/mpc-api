@@ -2,10 +2,16 @@ services:
   app:
     image: xoderockson/mpc-api:latest
     container_name: mpc-api
+    restart: always
     env_file:
       - .env
     ports:
       - 3021:3000
     volumes:
       - /var/www/api/mpc-api/.env:/usr/src/app/.env
-
+    environment:
+      - DB_HOST=192.168.102.106
+      - DB_PORT=27017
+      - DB_USERNAME=root
+      - DB_PASSWORD=jks@admin
+      - DB_NAME=mpcsurveydb
