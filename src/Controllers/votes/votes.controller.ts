@@ -11,7 +11,7 @@ import { VotesService } from './votes.service';
 import { CreateVoteDto } from './dto/create-vote.dto';
 import { UpdateVoteDto } from './dto/update-vote.dto';
 
-@Controller('votes')
+@Controller('vote')
 export class VotesController {
   constructor(private readonly votesService: VotesService) {}
 
