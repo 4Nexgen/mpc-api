@@ -1,17 +1,18 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsEmail, IsNotEmpty, isNotEmpty, IsOptional } from 'class-validator';
+
 export class CreateVoteDto {
   @ApiProperty()
   id: number;
 
   @ApiProperty()
-  candidate_ids: number[];
+  @IsNotEmpty()
+  candidate_id: string;
 
   @ApiProperty()
+  @IsOptional()
   email: string;
 
   @ApiProperty()
   remarks: string;
-
-  @ApiProperty()
-  captchaToken: string; //Comment this if captcha is not needed
 }
