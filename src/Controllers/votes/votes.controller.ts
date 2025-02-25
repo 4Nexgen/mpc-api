@@ -10,12 +10,16 @@ import {
 import { VotesService } from './votes.service';
 import { CreateVoteDto } from './dto/create-vote.dto';
 import { UpdateVoteDto } from './dto/update-vote.dto';
+import { ApiCreatedResponse } from '@nestjs/swagger';
 
 @Controller('vote')
 export class VotesController {
   constructor(private readonly votesService: VotesService) {}
 
   @Post('addVote')
+  @ApiCreatedResponse({
+    description: 'The record has been successfully created.',
+  })
   async create(@Body() createVoteDto: CreateVoteDto) {
     return this.votesService.create(createVoteDto);
   }

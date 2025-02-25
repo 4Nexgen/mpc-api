@@ -15,10 +15,9 @@ async function bootstrap() {
   };
 
   const config = new DocumentBuilder()
-    .setTitle('Cats example')
-    .setDescription('The cats API description')
+    .setTitle('MPC Survey')
+    .setDescription('The mpc-survey API description')
     .setVersion('1.0')
-    .addTag('cats')
     .build();
   const documentFactory = () =>
     SwaggerModule.createDocument(app, config, options);
