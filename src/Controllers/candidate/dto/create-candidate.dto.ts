@@ -2,7 +2,6 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateCandidateDto {
-  @ApiProperty()
   id: number;
 
   @IsNotEmpty()
@@ -12,7 +11,6 @@ export class CreateCandidateDto {
   @ApiProperty()
   remarks: string;
 
-  @ApiProperty()
   total_votes: number[];
 
   @ApiProperty()
