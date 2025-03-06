@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import { Types } from 'mongoose';
 
 export type VoteDocument = HydratedDocument<Vote>;
 
@@ -9,8 +8,8 @@ export class Vote {
   @Prop()
   id: number;
 
-  @Prop({ type: [{ type: Types.ObjectId, ref: 'Candidate' }], required: true })
-  candidate_id: Types.ObjectId;
+  @Prop({ required: true }) // ✅ Store candidateId instead of ObjectId
+  candidateId: number[];
 
   @Prop({ unique: true })
   email: string;
