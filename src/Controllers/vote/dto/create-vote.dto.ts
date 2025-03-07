@@ -6,7 +6,7 @@ export class CreateVoteDto {
 
   @ApiProperty()
   @IsNotEmpty()
-  candidate_id: string[];
+  candidateId: number[];
 
   @ApiProperty()
   @IsOptional()

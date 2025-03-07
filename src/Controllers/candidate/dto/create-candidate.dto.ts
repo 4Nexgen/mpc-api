@@ -1,8 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsString, IsNumber } from 'class-validator';
 
 export class CreateCandidateDto {
-  id: number;
+  @ApiProperty({ description: 'Auto-incremented candidate ID' })
+  @IsNumber()
+  candidateId: number; // ✅ Update from `id` to `candidateId`
 
   @IsNotEmpty()
   @ApiProperty()
@@ -11,7 +13,9 @@ export class CreateCandidateDto {
   @ApiProperty()
   remarks: string;
 
-  total_votes: number[];
+  @ApiProperty({ description: 'Total votes count', default: 0 })
+  @IsNumber()
+  total_votes: number;
 
   @ApiProperty()
   image_url: string;

@@ -15,7 +15,7 @@ export class VoteService {
   ) {}
 
   async castVote(createVoteDto: CreateVoteDto) {
-    const { email, candidate_id } = createVoteDto;
+    const { email, candidateId } = createVoteDto; // ✅ `candidateId` is an array of numbers
 
     // **1. Check if the email already voted**
     const existingVote = await this.voteModel.findOne({ email });
@@ -23,25 +23,20 @@ export class VoteService {
       throw new BadRequestException('This email has already voted.');
     }
 
-    // **2. Find the candidate**
-    const candidate = await this.candidateModel.findById(candidate_id);
-    if (!candidate) {
-      throw new NotFoundException('Candidate not found.');
-    }
-
-    // **3. Increment total_votes for the candidate**
-    for (const id of candidate_id) {
-      const candidate = await this.candidateModel.findById(id);
+    // **2. Check if all candidate IDs exist**
+    for (const id of candidateId) {
+      const candidate = await this.candidateModel.findOne({ candidateId: id }); // ✅ Use number-based lookup
       if (!candidate) {
         throw new NotFoundException(`Candidate with ID ${id} not found.`);
       }
 
+      // **3. Increment total_votes for each candidate**
       candidate.total_votes = (candidate.total_votes || 0) + 1;
       await candidate.save();
     }
 
     // **4. Save the new vote**
-    const newVote = new this.voteModel({ email, candidate_id });
+    const newVote = new this.voteModel({ email, candidate_id: candidateId });
     return newVote.save();
   }
 
